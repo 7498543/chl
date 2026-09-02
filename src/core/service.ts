@@ -1,17 +1,43 @@
+import { getDB } from "./db";
+import { softDelete, restore, notDeleted } from "./db/softDelete";
+
 export class BaseService {
-  constructor() {}
   /**
-   * 数据库服务
+   * 获取数据库实例
    */
-  db() {
-    // TODO 数据库服务
-    return null;
+  protected db(name?: string) {
+    return getDB(name)!.db;
   }
+
   /**
-   * Redis服务
+   * 软删除过滤条件
+   * @description 用于 SELECT 查询的 WHERE 子句，过滤掉已软删除的记录
+   * @example db.select().from(table).where(this.notDeleted(table))
    */
-  redis() {
-    // TODO Redis服务
+  protected notDeleted(table: any) {
+    return notDeleted(table);
+  }
+
+  /**
+   * 软删除
+   * @description 将记录的 deletedAt 设为当前时间，标记为已删除
+   */
+  protected async softDelete(table: any, id: number, name?: string) {
+    return softDelete(this.db(name), table, id);
+  }
+
+  /**
+   * 恢复软删除
+   * @description 将记录的 deletedAt 设为 null，恢复已删除的记录
+   */
+  protected async restore(table: any, id: number, name?: string) {
+    return restore(this.db(name), table, id);
+  }
+
+  /**
+   * Redis 服务
+   */
+  protected redis() {
     return null;
   }
 }
