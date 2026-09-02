@@ -1,7 +1,6 @@
 import type { ZodObject, ZodSafeParseResult } from "zod";
 import type { Response } from "express";
 
-
 interface Message {
   message: string;
   mode: "success" | "error" | "warning";
@@ -19,7 +18,6 @@ export enum businessCode {
 }
 
 export class BaseController {
-  
   /**
    * 校验数据
    * @description 校验数据是否符合校验规则
@@ -39,12 +37,7 @@ export class BaseController {
    * @param data 数据
    * @param message 消息
    */
-  response(
-    res: Response,
-    businessCode: businessCode,
-    data: any,
-    message: Partial<Message>,
-  ) {
+  response(res: Response, businessCode: businessCode, data: any, message: Partial<Message>) {
     res.status(200).json({
       businessCode,
       data,

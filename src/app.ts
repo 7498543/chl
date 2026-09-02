@@ -1,18 +1,26 @@
-// ---------------------------------------------------
 import express from "express";
 import cors from "cors";
-import multer from "multer";
-import path from "path";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import router from "@/routes";
 
-// ---------------------------------------------------
-// 创建应用实例
-// ---------------------------------------------------
 const app = express();
+
+app.use(helmet());
 app.use(cors());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(limiter);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(router);
 
-// ---------------------------------------------------
 export default app;

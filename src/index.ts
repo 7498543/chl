@@ -1,16 +1,25 @@
 import app from "./app";
 import http from "http";
-import { useRuntimeConfig } from "./core";
+import { useRuntimeConfig, initDB } from "./core";
 
-/**
- * 启动引导
- * @description 项目启动引导函数
- */
 function bootstrap() {
-  const server = http.createServer(app);
   const config = useRuntimeConfig();
 
-  server.listen(config.PORT);
+  initDB();
+
+  const server = http.createServer(app);
+
+  server.listen(config.PORT, () => {
+    console.log(`Server is running on http://localhost:${config.PORT}`);
+  });
+
+  process.on("SIGTERM", () => {
+    console.log("SIGTERM signal received: closing HTTP server");
+    server.close(() => {
+      console.log("HTTP server closed");
+      process.exit(0);
+    });
+  });
 }
 
 bootstrap();

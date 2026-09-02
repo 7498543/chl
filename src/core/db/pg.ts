@@ -1,25 +1,21 @@
 import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 
-import { Pool, PoolConfig } from "pg";
-
-interface PgConfig extends PoolConfig {
-  url: string;
+interface PgConfig {
   connectionString: string;
+  max?: number;
 }
 
 export function initPg(config: PgConfig) {
   const pool = new Pool({
-    max: 10,
-    ...config,
+    max: config.max ?? 10,
+    connectionString: config.connectionString,
   });
 
-  const pg = drizzle(pool);
+  const db = drizzle(pool);
 
   return {
-    db: pg,
-    get() {
-      return pg.query;
-    },
+    db,
     close() {
       pool.end();
     },

@@ -1,20 +1,29 @@
-import env from "dotenv";
+import dotenv from "dotenv";
 
-env.config();
+dotenv.config();
 
-interface RuntimeConfig extends NodeJS.ProcessEnv {
+interface RuntimeConfig {
   PORT: string;
+  NODE_ENV: string;
+  DB_HOST: string;
+  DB_PORT: string;
+  DB_USER: string;
+  DB_PASSWORD: string;
+  DB_NAME: string;
+  DATABASE_URL: string;
 }
 
-const defaultEnv: RuntimeConfig = {
+const defaultEnv: Partial<RuntimeConfig> = {
   PORT: "3000",
+  NODE_ENV: "development",
+  DB_HOST: "localhost",
+  DB_PORT: "5432",
+  DB_USER: "postgres",
+  DB_PASSWORD: "postgres",
+  DB_NAME: "chl",
+  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/chl",
 };
 
-
-/**
- * 获取运行时配置
- * @returns 运行时配置
-*/ 
 export function useRuntimeConfig(): RuntimeConfig {
-  return { ...defaultEnv, ...process.env } as RuntimeConfig;
+  return { ...defaultEnv, ...process.env } as unknown as RuntimeConfig;
 }

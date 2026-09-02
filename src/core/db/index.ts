@@ -3,13 +3,27 @@ import { initPg } from "./pg";
 
 export * as schema from "./schema";
 
+let dbInstance: ReturnType<typeof initPg> | null = null;
+
 export function initDB() {
+  if (dbInstance) {
+    return dbInstance;
+  }
+
   const config = useRuntimeConfig();
-  const pgConfg = {
-    url: config.pgUrl,
-    connectionString: config.pgConnectionString,
+
+  const pgConfig = {
+    connectionString: config.DATABASE_URL,
     max: 10,
   };
 
-  return initPg(pgConfg);
+  dbInstance = initPg(pgConfig);
+  return dbInstance;
+}
+
+export function getDB() {
+  if (!dbInstance) {
+    throw new Error("Database not initialized. Call initDB() first.");
+  }
+  return dbInstance;
 }
