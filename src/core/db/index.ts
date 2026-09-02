@@ -4,11 +4,11 @@ import { dbLogger } from "../logger";
 
 export * as schema from "./schema";
 
-let dbInstance: ReturnType<typeof initPg> | null = null;
+const dbInstance = new Map<string, ReturnType<typeof initPg>>();
 
-export function initDB() {
-  if (dbInstance) {
-    return dbInstance;
+export function initDB(name = "main") {
+  if (dbInstance.has(name)) {
+    return dbInstance.get(name);
   }
 
   const config = useRuntimeConfig();
@@ -19,20 +19,27 @@ export function initDB() {
     logger: dbLogger,
   };
 
-  dbInstance = initPg(pgConfig);
-  return dbInstance;
+  const db = initPg(pgConfig);
+
+  dbInstance.set(name, db);
+
+  return db;
 }
 
-export function getDB() {
-  if (!dbInstance) {
+export function getDB(name = "main") {
+  if (!dbInstance.has(name)) {
     throw new Error("Database not initialized. Call initDB() first.");
   }
-  return dbInstance;
+  return dbInstance.get(name);
 }
 
-export async function closeDB(): Promise<void> {
-  if (dbInstance) {
-    await dbInstance.close();
-    dbInstance = null;
+export async function closeDB(name = "main"): Promise<void> {
+  if (!name) {
+    dbInstance.forEach((db) => db.close());
+    dbInstance.clear();
+    return;
+  } else if (dbInstance.has(name)) {
+    await dbInstance.get(name)?.close();
+    dbInstance.delete(name);
   }
 }
