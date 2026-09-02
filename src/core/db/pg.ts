@@ -1,9 +1,11 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import type { Logger } from "drizzle-orm";
 
 interface PgConfig {
   connectionString: string;
   max?: number;
+  logger?: Logger;
 }
 
 export function initPg(config: PgConfig) {
@@ -12,7 +14,9 @@ export function initPg(config: PgConfig) {
     connectionString: config.connectionString,
   });
 
-  const db = drizzle(pool);
+  const db = drizzle(pool, {
+    logger: config.logger,
+  });
 
   return {
     db,

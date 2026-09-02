@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import router from "@/routes";
+import { routeLogger } from "@core/logger";
 
 const app = express();
 
@@ -17,6 +18,8 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+
+app.use(routeLogger);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
