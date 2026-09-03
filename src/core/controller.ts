@@ -1,4 +1,4 @@
-import type { ZodObject, ZodSafeParseResult, ZodType } from "zod";
+import type { ZodSafeParseResult, ZodType } from "zod";
 import type { NextFunction, Response, Request } from "express";
 
 interface Message {
@@ -79,7 +79,7 @@ export class BaseController {
     message: Partial<Message>,
   ) {
     res.status(code).json({
-      businessCode,
+      code: businessCode,
       data,
       message: {
         show: message.show ?? true,
@@ -107,12 +107,40 @@ export class BaseController {
    * 成功响应
    * @description 接口成功响应返回格式
    * @param res 响应对象
+   * @param data 数据
    * @param message 消息
    */
-  successResult(res: Response, message: Partial<Message>) {
-    this.response(res, businessCode.Success, null, {
+  successResult(res: Response, data: any, message: Partial<Message>) {
+    this.response(res, businessCode.Success, data, {
       ...message,
       mode: "success",
+    });
+  }
+
+  /**
+   * 创建响应
+   * @description 接口创建响应返回格式
+   * @param res 响应对象
+   * @param data 数据
+   * @param message 消息
+   */
+  createResult(res: Response, data: any, message: Partial<Message>) {
+    this.response(res, businessCode.Create, data, {
+      ...message,
+      mode: "success",
+    });
+  }
+
+  /**
+   * 未找到响应
+   * @description 接口未找到响应返回格式
+   * @param res 响应对象
+   * @param message 消息
+   */
+  notFoundResult(res: Response, message: Partial<Message>) {
+    this.response(res, businessCode.NotFound, null, {
+      ...message,
+      mode: "warning",
     });
   }
 }

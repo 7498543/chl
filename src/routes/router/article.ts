@@ -1,32 +1,64 @@
 import express from "express";
 import { articleController } from "@/controller/article";
-import z from "zod";
+import { wrapAsync } from "@/middleware/errorHandler";
+import {
+  ArticleCategoryListDto,
+  ArticleTagListDto,
+  ArticleListDto,
+  ArticleDetailDto,
+} from "@/dto/article.dto";
 
 const router = express.Router({});
 
 /**
  * @openapi
  * /api/article/category/list:
- *   get:
+ *   post:
  *     tags: [文章管理]
- *     summary: 获取文章分类列表
+ *     summary: 获取文章分类列表（分页）
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               page: { type: number, description: "页码，默认1" }
+ *               pageSize: { type: number, description: "每页条数，默认10" }
  *     responses:
  *       200:
  *         description: 分类列表
  */
-router.get("/category/list", articleController.getCategoryList);
+router.post(
+  "/category/list",
+  articleController.validateBody(ArticleCategoryListDto),
+  wrapAsync(articleController.getCategoryList),
+);
 
 /**
  * @openapi
  * /api/article/tag/list:
- *   get:
+ *   post:
  *     tags: [文章管理]
- *     summary: 获取标签列表
+ *     summary: 获取标签列表（分页）
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               page: { type: number, description: "页码，默认1" }
+ *               pageSize: { type: number, description: "每页条数，默认10" }
  *     responses:
  *       200:
  *         description: 标签列表
  */
-router.get("/tag/list", articleController.getTagList);
+router.post(
+  "/tag/list",
+  articleController.validateBody(ArticleTagListDto),
+  wrapAsync(articleController.getTagList),
+);
 
 /**
  * @openapi
@@ -61,15 +93,8 @@ router.get("/tag/list", articleController.getTagList);
  */
 router.post(
   "/list",
-  articleController.validateBody(
-    z.object({
-      categoryId: z.string().optional(),
-      title: z.string().optional(),
-      page: z.string().optional(),
-      pageSize: z.string().optional(),
-    }),
-  ),
-  articleController.getList,
+  articleController.validateBody(ArticleListDto),
+  wrapAsync(articleController.getList),
 );
 
 /**
@@ -97,12 +122,8 @@ router.post(
  */
 router.post(
   "/detail",
-  articleController.validateBody(
-    z.object({
-      id: z.string(),
-    }),
-  ),
-  articleController.getDetail,
+  articleController.validateBody(ArticleDetailDto),
+  wrapAsync(articleController.getDetail),
 );
 
 export default router;
