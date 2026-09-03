@@ -4,6 +4,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import router from "@/routes";
 import { routeLogger } from "@/core";
+import { errorHandler } from "@/middleware/errorHandler";
 
 const app = express();
 
@@ -25,5 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
+
+app.use(errorHandler);
 
 export default app;

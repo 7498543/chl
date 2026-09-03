@@ -15,6 +15,7 @@ export enum businessCode {
   Warning = -2,
   NotFound = -3,
   Duplicate = -4,
+  INTERNAL_ERROR = -5,
 }
 
 export class BaseController {
@@ -58,7 +59,26 @@ export class BaseController {
    * @param message 消息
    */
   response(res: Response, businessCode: businessCode, data: any, message: Partial<Message>) {
-    res.status(200).json({
+    this.standardResponse(res, 200, businessCode, data, message);
+  }
+
+  /**
+   * 标准响应
+   * @description 接口标准响应返回格式
+   * @param res 响应对象
+   * @param code 状态码
+   * @param businessCode 业务码
+   * @param data 数据
+   * @param message 消息
+   */
+  standardResponse(
+    res: Response,
+    code: number,
+    businessCode: businessCode,
+    data: any,
+    message: Partial<Message>,
+  ) {
+    res.status(code).json({
       businessCode,
       data,
       message: {
@@ -96,3 +116,5 @@ export class BaseController {
     });
   }
 }
+
+export const baseController = new BaseController();
