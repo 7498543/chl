@@ -21,7 +21,7 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
   });
 
   if (err instanceof HttpError) {
-    return baseController.response(res, businessCode.Error, null, {
+    return baseController.standardResponse(res, err.code, businessCode.Error, null, {
       message: err.message,
       mode: "error",
     });

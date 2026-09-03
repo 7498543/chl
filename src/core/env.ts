@@ -14,6 +14,10 @@ interface RuntimeConfig {
   UPLOAD_DIR: string;
   /** 是否启用 Swagger API 文档（生产环境建议关闭） */
   SWAGGER_ENABLED: string;
+  /** JWT 密钥 */
+  JWT_SECRET: string;
+  /** 是否开放注册（生产环境建议关闭） */
+  REGISTER_ENABLED: string;
 }
 
 const defaultEnv: Partial<RuntimeConfig> = {
@@ -27,6 +31,8 @@ const defaultEnv: Partial<RuntimeConfig> = {
   DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/chl",
   UPLOAD_DIR: "./uploads",
   SWAGGER_ENABLED: "true",
+  JWT_SECRET: "chl-jwt-secret-dev-2026",
+  REGISTER_ENABLED: "true",
 };
 
 export function useRuntimeConfig(): RuntimeConfig {
