@@ -3,7 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import router from "@/routes";
-import { routeLogger } from "@core/logger";
+import { routeLogger } from "@/core";
 
 const app = express();
 

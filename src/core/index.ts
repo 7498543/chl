@@ -6,3 +6,5 @@ export { default as logger, dbLogger, routeLogger } from "./logger";
 
 export * from "./controller";
 export * from "./service";
+
+export { swaggerSpec, isSwaggerEnabled } from "./swagger";

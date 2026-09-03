@@ -9,7 +9,7 @@ const consoleFormat = printf(({ level, message, timestamp, ...meta }) => {
   return `${timestamp} [${level}]: ${message}${extra}`;
 });
 
-const logger = createLogger({
+export const logger = createLogger({
   level: process.env.NODE_ENV === "production" ? "info" : "debug",
   format: combine(timestamp({ format: "YYYY-MM-DD HH:mm:ss" }), json()),
   transports: [

@@ -1,5 +1,5 @@
-import type { ZodObject, ZodSafeParseResult } from "zod";
-import type { Response } from "express";
+import type { ZodObject, ZodSafeParseResult, ZodType } from "zod";
+import type { NextFunction, Response, Request } from "express";
 
 interface Message {
   message: string;
@@ -25,8 +25,28 @@ export class BaseController {
    * @param data 数据
    * @returns 校验结果
    */
-  validate(schema: ZodObject, data: any): ZodSafeParseResult<any> {
+  validate(schema: ZodType, data: any): ZodSafeParseResult<any> {
     return schema.safeParse(data);
+  }
+
+  /**
+   * 校验请求体
+   * @description 校验请求体是否符合校验规则
+   * @param schema 校验规则
+   * @returns 校验结果
+   */
+  validateBody(schema: ZodType) {
+    return (req: Request, res: Response, next: NextFunction) => {
+      const result = this.validate(schema, req.body);
+      if (!result.success) {
+        this.errorResult(res, {
+          message: result.error.issues.map((issue) => issue.message).join("\n"),
+        });
+        return;
+      }
+      (req as any).body = result.data;
+      next();
+    };
   }
 
   /**

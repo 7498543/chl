@@ -12,6 +12,8 @@ interface RuntimeConfig {
   DB_NAME: string;
   DATABASE_URL: string;
   UPLOAD_DIR: string;
+  /** 是否启用 Swagger API 文档（生产环境建议关闭） */
+  SWAGGER_ENABLED: string;
 }
 
 const defaultEnv: Partial<RuntimeConfig> = {
@@ -24,6 +26,7 @@ const defaultEnv: Partial<RuntimeConfig> = {
   DB_NAME: "chl",
   DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/chl",
   UPLOAD_DIR: "./uploads",
+  SWAGGER_ENABLED: "true",
 };
 
 export function useRuntimeConfig(): RuntimeConfig {
