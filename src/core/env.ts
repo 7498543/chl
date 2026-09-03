@@ -18,6 +18,16 @@ interface RuntimeConfig {
   JWT_SECRET: string;
   /** 是否开放注册（生产环境建议关闭） */
   REGISTER_ENABLED: string;
+  /** Redis 连接地址 */
+  REDIS_HOST: string;
+  /** Redis 端口 */
+  REDIS_PORT: string;
+  /** Redis 密码 */
+  REDIS_PASSWORD: string;
+  /** Redis 数据库编号 */
+  REDIS_DB: string;
+  /** Redis 是否启用 */
+  REDIS_ENABLED: string;
 }
 
 const defaultEnv: Partial<RuntimeConfig> = {
@@ -33,6 +43,11 @@ const defaultEnv: Partial<RuntimeConfig> = {
   SWAGGER_ENABLED: "true",
   JWT_SECRET: "chl-jwt-secret-dev-2026",
   REGISTER_ENABLED: "true",
+  REDIS_HOST: "127.0.0.1",
+  REDIS_PORT: "6379",
+  REDIS_PASSWORD: "",
+  REDIS_DB: "0",
+  REDIS_ENABLED: "false",
 };
 
 export function useRuntimeConfig(): RuntimeConfig {

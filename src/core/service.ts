@@ -1,5 +1,7 @@
 import { getDB } from "./db";
+import { getRedis } from "./redis";
 import { softDelete, restore, notDeleted } from "./db/softDelete";
+import type { RedisAdapter } from "./redis/adapter";
 
 export class BaseService {
   /**
@@ -7,6 +9,13 @@ export class BaseService {
    */
   protected db(name?: string) {
     return getDB(name)!.db;
+  }
+
+  /**
+   * 获取 Redis 实例
+   */
+  protected redis(name?: string): RedisAdapter {
+    return getRedis(name);
   }
 
   /**
@@ -32,12 +41,5 @@ export class BaseService {
    */
   protected async restore(table: any, id: number, name?: string) {
     return restore(this.db(name), table, id);
-  }
-
-  /**
-   * Redis 服务
-   */
-  protected redis() {
-    return null;
   }
 }
