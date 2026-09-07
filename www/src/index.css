@@ -1,28 +1,130 @@
 @import "tailwindcss";
 
 @theme {
+  --color-background: hsl(0 0% 100%);
+  --color-background-deep: hsl(216 20.11% 95.47%);
+  --color-foreground: hsl(210 6% 21%);
+
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222.2 84% 4.9%);
+
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222.2 84% 4.9%);
+
+  --color-muted: hsl(210 40% 96.1%);
+  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+
+  --color-primary: hsl(212 100% 45%);
+  --color-primary-foreground: hsl(0 0% 98%);
+
+  --color-secondary: hsl(240 5% 96%);
+  --color-secondary-foreground: hsl(240 6% 10%);
+
+  --color-accent: hsl(240 5% 96%);
+  --color-accent-hover: hsl(200 10% 90%);
+  --color-accent-foreground: hsl(240 6% 10%);
+
+  --color-destructive: hsl(0 78% 68%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --color-success: hsl(144 57% 58%);
+  --color-success-foreground: hsl(0 0% 98%);
+
+  --color-warning: hsl(42 84% 61%);
+  --color-warning-foreground: hsl(0 0% 98%);
+
+  --color-border: hsl(240 5.9% 90%);
+  --color-input: hsl(240 5.88% 90%);
+  --color-input-placeholder: hsl(217 10.6% 65%);
+  --color-input-background: hsl(0 0% 100%);
+  --color-ring: hsl(222.2 84% 4.9%);
+
+  --color-overlay: hsl(0 0% 0% / 30%);
+  --color-heavy: hsl(192 9.43% 89.61%);
+  --color-heavy-foreground: var(--color-accent-foreground);
+
+  --color-sidebar: hsl(0 0% 100%);
+  --color-sidebar-deep: hsl(216 20.11% 95.47%);
+
+  --color-header: hsl(0 0% 100%);
+
   --color-text: #6b6375;
   --color-text-h: #08060d;
   --color-bg: #fff;
-  --color-border: #e5e4e7;
   --color-code-bg: #f4f3ec;
   --color-accent: #aa3bff;
   --color-accent-bg: rgba(170, 59, 255, 0.1);
   --color-accent-border: rgba(170, 59, 255, 0.5);
   --color-social-bg: rgba(244, 243, 236, 0.5);
+
   --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
   --font-heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
-  --shadow-custom: rgba(0, 0, 0, 0.1) 0 10px 15px -3px,
-    rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --radius: 0.5rem;
+  --font-size-base: 16px;
+
+  --shadow-custom: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
 
 body {
   margin: 0;
+  background-color: hsl(var(--color-background));
+  color: hsl(var(--color-foreground));
+  font-size: var(--font-size-base);
+  accent-color: hsl(var(--color-primary));
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --color-background: hsl(240 10% 4%);
+    --color-background-deep: hsl(240 4% 10%);
+    --color-foreground: hsl(0 0% 98%);
+
+    --color-card: hsl(240 10% 4%);
+    --color-card-foreground: hsl(0 0% 98%);
+
+    --color-popover: hsl(240 10% 4%);
+    --color-popover-foreground: hsl(0 0% 98%);
+
+    --color-muted: hsl(240 4% 16%);
+    --color-muted-foreground: hsl(240 5% 65%);
+
+    --color-primary: hsl(212 100% 45%);
+    --color-primary-foreground: hsl(0 0% 98%);
+
+    --color-secondary: hsl(240 4% 16%);
+    --color-secondary-foreground: hsl(0 0% 98%);
+
+    --color-accent: hsl(240 4% 16%);
+    --color-accent-hover: hsl(240 4% 20%);
+    --color-accent-foreground: hsl(0 0% 98%);
+
+    --color-destructive: hsl(0 78% 68%);
+    --color-destructive-foreground: hsl(0 0% 98%);
+
+    --color-success: hsl(144 57% 58%);
+    --color-success-foreground: hsl(0 0% 98%);
+
+    --color-warning: hsl(42 84% 61%);
+    --color-warning-foreground: hsl(0 0% 98%);
+
+    --color-border: hsl(240 4% 16%);
+    --color-input: hsl(240 4% 16%);
+    --color-input-placeholder: hsl(240 5% 65%);
+    --color-input-background: hsl(240 10% 4%);
+    --color-ring: hsl(240 5% 84%);
+
+    --color-overlay: hsl(0 0% 0% / 50%);
+    --color-heavy: hsl(240 4% 20%);
+    --color-heavy-foreground: hsl(240 6% 10%);
+
+    --color-sidebar: hsl(240 10% 4%);
+    --color-sidebar-deep: hsl(240 4% 10%);
+
+    --color-header: hsl(240 10% 4%);
+
     --color-text: #9ca3af;
     --color-text-h: #f3f4f6;
     --color-bg: #16171d;
@@ -32,7 +134,8 @@ body {
     --color-accent-bg: rgba(192, 132, 252, 0.15);
     --color-accent-border: rgba(192, 132, 252, 0.5);
     --color-social-bg: rgba(47, 48, 58, 0.5);
-    --shadow-custom: rgba(0, 0, 0, 0.4) 0 10px 15px -3px,
-      rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --shadow-custom: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    color-scheme: dark;
   }
 }

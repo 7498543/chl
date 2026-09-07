@@ -1,7 +1,7 @@
-import { create } from "zustand";
-import type { User, LoginRequest, LoginResponse, ApiResponse } from "@/types";
-import api from "@/lib/api";
+import { http } from "@/lib/api";
 import { TOKEN_KEY, USER_KEY } from "@/lib/constants";
+import type { LoginRequest, LoginResponse, User } from "@/types";
+import { create } from "zustand";
 
 interface AuthState {
   user: User | null;
@@ -11,9 +11,11 @@ interface AuthState {
   login: (data: LoginRequest) => Promise<void>;
   logout: () => void;
   initialize: () => void;
+  /** 更新用户信息 */
+  updateUser: (user: Partial<User>) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   token: null,
   isLoading: false,
@@ -22,8 +24,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (data: LoginRequest) => {
     set({ isLoading: true });
     try {
-      const res = await api.post<ApiResponse<LoginResponse>>("/base/login", data);
-      const { token, user } = res.data.data;
+      const res = await http.post<LoginResponse>(
+        "/base/login",
+        data as unknown as Record<string, unknown>,
+      );
+      const { token, user } = res.data;
       localStorage.setItem(TOKEN_KEY, token);
       localStorage.setItem(USER_KEY, JSON.stringify(user));
       set({ user, token, isAuthenticated: true, isLoading: false });
@@ -50,6 +55,15 @@ export const useAuthStore = create<AuthState>((set) => ({
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(USER_KEY);
       }
+    }
+  },
+
+  updateUser: (userData: Partial<User>) => {
+    const { user } = get();
+    if (user) {
+      const updated = { ...user, ...userData };
+      localStorage.setItem(USER_KEY, JSON.stringify(updated));
+      set({ user: updated });
     }
   },
 }));

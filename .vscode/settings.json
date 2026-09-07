@@ -34,10 +34,10 @@
   "editor.autoClosingQuotes": "beforeWhitespace",
   "editor.wordSeparators": "`~!@#%^&*()=+[{]}\\|;:'\",.<>/?",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true,
-    "source.organizeImports": true,
-    "source.removeUnusedImports": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "source.organizeImports": "explicit",
+    "source.removeUnusedImports": "explicit"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[html]": {
