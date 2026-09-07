@@ -1,5 +1,5 @@
+import type { NextFunction, Request, Response } from "express";
 import type { ZodSafeParseResult, ZodType } from "zod";
-import type { NextFunction, Response, Request } from "express";
 
 interface Message {
   message: string;

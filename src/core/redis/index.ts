@@ -1,6 +1,6 @@
 import { useRuntimeConfig } from "@/core/env";
 import { logger } from "@/core/logger";
-import type { RedisAdapter, CacheOptions } from "./adapter";
+import type { CacheOptions, RedisAdapter } from "./adapter";
 import { IORedisAdapter } from "./ioredis";
 import { MockRedisAdapter } from "./mock";
 

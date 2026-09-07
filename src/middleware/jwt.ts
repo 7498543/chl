@@ -1,9 +1,7 @@
-import type { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { HttpError } from "@/utils/httpError";
 import { JWTPayload } from "@/types/express";
-
-
+import { HttpError } from "@/utils/httpError";
+import type { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
 

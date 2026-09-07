@@ -1,10 +1,10 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import rateLimit from "express-rate-limit";
-import router from "@/routes";
 import { routeLogger } from "@/core";
 import { errorHandler } from "@/middleware/errorHandler";
+import router from "@/routes";
+import cors from "cors";
+import express from "express";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 
 const app = express();
 

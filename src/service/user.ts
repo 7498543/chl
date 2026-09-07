@@ -1,9 +1,9 @@
 import { BaseService } from "@/core";
-import { eq } from "drizzle-orm";
-import bcrypt from "bcryptjs";
+import type { UserInsert } from "@/core/db/schema/sys";
 import { user } from "@/core/db/schema/sys";
 import type { CreateUserDtoType } from "@/dto/user.dto";
-import type { UserInsert } from "@/core/db/schema/sys";
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
 
 export class UserService extends BaseService {
   /**

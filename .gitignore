@@ -131,6 +131,9 @@ dist
 # yarn v3
 .pnp.*
 .yarn/*
+
+# PM2 日志
+logs/pm2/
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases

@@ -1,6 +1,6 @@
-import app from "./app";
 import http from "http";
-import { useRuntimeConfig, initDB, closeDB, logger } from "./core";
+import app from "./app";
+import { closeDB, initDB, logger, useRuntimeConfig } from "./core";
 
 async function bootstrap() {
   const config = useRuntimeConfig();
@@ -10,7 +10,12 @@ async function bootstrap() {
   const server = http.createServer(app);
 
   server.listen(config.PORT, () => {
-    logger.info(`Server is running on http://localhost:${config.PORT}`);
+    const envLabel = config.NODE_ENV || "unknown";
+    const pm2Label = config.IS_PM2
+      ? ` [PM2] instance=${config.PM2_INSTANCE_ID} pid=${config.PM2_PROCESS_ID}`
+      : "";
+
+    logger.info(`Server is running on http://localhost:${config.PORT} [${envLabel}]${pm2Label}`);
   });
 
   async function gracefulShutdown(signal: string) {

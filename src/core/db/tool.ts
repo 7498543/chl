@@ -1,5 +1,5 @@
-import { integer, timestamp } from "drizzle-orm/pg-core";
 import type { PgColumnBuilderBase } from "drizzle-orm/pg-core";
+import { integer, timestamp } from "drizzle-orm/pg-core";
 
 type SchemaColumns = Record<string, PgColumnBuilderBase>;
 

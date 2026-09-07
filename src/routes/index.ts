@@ -1,9 +1,9 @@
+import { isSwaggerEnabled, swaggerSpec } from "@/core";
 import express from "express";
-import path from "node:path";
-import swaggerUi from "swagger-ui-express";
-import { pathToFileURL } from "node:url";
 import { globSync } from "glob";
-import { swaggerSpec, isSwaggerEnabled } from "@/core";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+import swaggerUi from "swagger-ui-express";
 
 const router = express.Router();
 const apiRouter = express.Router({});

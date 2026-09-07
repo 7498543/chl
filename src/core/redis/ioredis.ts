@@ -1,5 +1,5 @@
 import Redis from "ioredis";
-import type { RedisAdapter, PipelineCommand, PipelineResult } from "./adapter";
+import type { PipelineCommand, PipelineResult, RedisAdapter } from "./adapter";
 
 interface RedisConfig {
   host: string;

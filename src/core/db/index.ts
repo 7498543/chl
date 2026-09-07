@@ -1,6 +1,6 @@
 import { useRuntimeConfig } from "../env";
-import { initPg } from "./pg";
 import { dbLogger } from "../logger";
+import { initPg } from "./pg";
 
 export * as schema from "./schema";
 

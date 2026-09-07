@@ -1,6 +1,6 @@
 import { getDB } from "./db";
+import { notDeleted, restore, softDelete } from "./db/softDelete";
 import { getRedis } from "./redis";
-import { softDelete, restore, notDeleted } from "./db/softDelete";
 import type { RedisAdapter } from "./redis/adapter";
 
 export class BaseService {

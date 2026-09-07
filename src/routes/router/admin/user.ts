@@ -1,9 +1,9 @@
-import express from "express";
+import { authController } from "@/controller/auth";
 import { userController } from "@/controller/user";
+import { CreateUserDto } from "@/dto/user.dto";
 import { wrapAsync } from "@/middleware/errorHandler";
 import { jwtAuth } from "@/middleware/jwt";
-import { CreateUserDto } from "@/dto/user.dto";
-import { authController } from "@/controller/auth";
+import express from "express";
 
 const router = express.Router();
 

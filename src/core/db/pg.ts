@@ -1,6 +1,6 @@
+import type { Logger } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import type { Logger } from "drizzle-orm";
 
 interface PgConfig {
   connectionString: string;

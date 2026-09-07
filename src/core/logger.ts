@@ -1,5 +1,5 @@
+import type { NextFunction, Request, Response } from "express";
 import { createLogger, format, transports } from "winston";
-import type { Request, Response, NextFunction } from "express";
 
 const { combine, timestamp, printf, colorize, json } = format;
 

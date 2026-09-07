@@ -7,7 +7,6 @@ export class ArticleController extends BaseController {
    * 获取文章分类列表
    */
   getCategoryList = async (req: Request, res: Response) => {
-    console.log('getCategoryList', req.body);
     const result = await articleService.getCategoryList(req.body);
     this.successResult(res, result, {
       message: "获取分类列表成功",

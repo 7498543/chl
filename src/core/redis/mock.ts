@@ -251,7 +251,12 @@ export class MockRedisAdapter implements RedisAdapter {
     return sliced.map(([member]) => member);
   }
 
-  async zrevrange(key: string, start: number, stop: number, withScores?: boolean): Promise<string[]> {
+  async zrevrange(
+    key: string,
+    start: number,
+    stop: number,
+    withScores?: boolean,
+  ): Promise<string[]> {
     const zset = this.zsetStore.get(key);
     if (!zset) return [];
 

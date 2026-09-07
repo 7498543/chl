@@ -1,7 +1,7 @@
-import express from "express";
 import { authController } from "@/controller/auth";
+import { LoginDto, RegisterDto } from "@/dto/auth.dto";
 import { wrapAsync } from "@/middleware/errorHandler";
-import { RegisterDto, LoginDto } from "@/dto/auth.dto";
+import express from "express";
 
 const router = express.Router();
 

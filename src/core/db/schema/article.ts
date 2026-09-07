@@ -28,10 +28,9 @@ export const article = pgTable(
     userId: integer("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    categoryId: integer("category_id").references(
-      () => articleCategory.id,
-      { onDelete: "set null" },
-    ),
+    categoryId: integer("category_id").references(() => articleCategory.id, {
+      onDelete: "set null",
+    }),
     sort: sort(),
     enabled: enabled(),
   }),
