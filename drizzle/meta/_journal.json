@@ -8,6 +8,13 @@
       "when": 1788421519806,
       "tag": "0000_aberrant_kate_bishop",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788753387036,
+      "tag": "0001_sloppy_stellaris",
+      "breakpoints": true
     }
   ]
 }
