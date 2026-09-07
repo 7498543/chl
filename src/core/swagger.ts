@@ -1,14 +1,11 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import { useRuntimeConfig } from "./env";
-import { getIPV4, getIPV6 } from "./sys";
+import { getIPV4 } from "./sys";
 
 const config = useRuntimeConfig();
 const projectRoot = process.cwd().replace(/\\/g, "/");
 
-const ipv4S = getIPV4();
-const ipv6S = getIPV6();
-
-console.log(ipv4S, ipv6S);
+const ipv4 = getIPV4();
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -23,10 +20,12 @@ const options: swaggerJSDoc.Options = {
         url: `http://localhost:${config.PORT}`,
         description: "开发服务器",
       },
-      {
-        url: `http://${ipv4S}:${config.PORT}`,
-        description: "IPv4 服务器",
-      },
+      ...ipv4.map((ip) => {
+        return {
+          url: `http://${ip}:${config.PORT}`,
+          description: `${ip} 服务器`,
+        };
+      }),
     ],
   },
   apis: [`${projectRoot}/src/routes/**/*.ts`, `${projectRoot}/src/controller/**/*.ts`],

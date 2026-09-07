@@ -51,23 +51,24 @@ process.on("unhandledRejection", (err) => {
 });
 
 const interfaces = os.networkInterfaces() || {};
-const ips: NetworkInterface[] = [];
+const ips = new Map<string, NetworkInterface>();
 
 export function getLocalIP(version: string = "IPv4") {
+  const result = [];
   for (const name of Object.keys(interfaces)) {
     for (const iface of interfaces[name] || []) {
       if (iface.family === version) {
-        ips.push({
+        ips.set(iface.address, {
           name,
           address: iface.address,
           family: iface.family,
           mac: iface.mac,
         });
-        return iface.address;
+        result.push(iface.address);
       }
     }
   }
-  return null;
+  return result;
 }
 
 export function getIPV4() {
@@ -79,7 +80,7 @@ export function getIPV6() {
 }
 
 export function getIPs() {
-  return ips;
+  return [...ips.keys()];
 }
 
 const sysInfo = new Map<number, SysInfo>();
