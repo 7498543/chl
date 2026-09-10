@@ -230,7 +230,7 @@ export class HttpClient {
    */
   private signCustom(config: InternalAxiosRequestConfig, signConfig: SignConfig) {
     if (signConfig.signFn) {
-      const params = { ...config.params } || {};
+      const params = { ...(config.params || {}) };
       const signature = signConfig.signFn(params, signConfig.appSecret || "");
       config.params = { ...params, signature };
     }

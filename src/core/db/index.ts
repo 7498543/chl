@@ -3,6 +3,7 @@ import { dbLogger } from "../logger";
 import { initPg } from "./pg";
 
 export * as schema from "./schema";
+export { fk } from "./tool";
 
 const dbInstance = new Map<string, ReturnType<typeof initPg>>();
 

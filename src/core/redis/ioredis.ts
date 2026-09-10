@@ -188,10 +188,10 @@ export class IORedisAdapter implements RedisAdapter {
   async zrange(key: string, start: number, stop: number, withScores?: boolean): Promise<string[]> {
     if (!this.client) throw new Error("Redis not connected");
     if (withScores) {
-      const result = await this.client.zrange(key, start, stop, "WITHSCORES");
+      const result = await this.client.zrange(key, start, String(stop), "WITHSCORES");
       return result;
     }
-    return this.client.zrange(key, start, stop);
+    return this.client.zrange(key, start, String(stop));
   }
 
   async zrevrange(
@@ -202,10 +202,10 @@ export class IORedisAdapter implements RedisAdapter {
   ): Promise<string[]> {
     if (!this.client) throw new Error("Redis not connected");
     if (withScores) {
-      const result = await this.client.zrevrange(key, start, stop, "WITHSCORES");
+      const result = await this.client.zrevrange(key, start, String(stop), "WITHSCORES");
       return result;
     }
-    return this.client.zrevrange(key, start, stop);
+    return this.client.zrevrange(key, start, String(stop));
   }
 
   async zrem(key: string, ...members: (string | number)[]): Promise<number> {
@@ -242,7 +242,7 @@ export class IORedisAdapter implements RedisAdapter {
     }
 
     const results = await pipeline.exec();
-    return results.map(([error, result]) => ({
+    return (results || []).map(([error, result]) => ({
       error,
       result,
     }));

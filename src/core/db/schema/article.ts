@@ -3,6 +3,8 @@ import { createSchema, enabled, sort } from "../tool";
 import { assetLib } from "./asset";
 import { seoMeta, tag, user } from "./sys";
 
+export { tag } from "./sys";
+
 /* ──────────────────── 文章分类 ──────────────────── */
 
 export const articleCategory = pgTable(
