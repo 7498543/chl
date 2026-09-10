@@ -28,15 +28,30 @@ authRouter.use(jwtAuth);
  *             type: object
  *             required: [email, username, nickname, password]
  *             properties:
- *               email: { type: string, description: "邮箱" }
- *               username: { type: string, description: "用户名" }
- *               nickname: { type: string, description: "昵称" }
- *               password: { type: string, description: "密码" }
- *               role: { type: string, enum: [user, admin], default: user, description: "角色" }
- *               enabled: { type: number, default: 1, description: "是否启用 0/1" }
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: 邮箱
+ *               username:
+ *                 type: string
+ *                 description: 用户名
+ *               nickname:
+ *                 type: string
+ *                 description: 昵称
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: 密码
+ *               role:
+ *                 type: string
+ *                 enum: [user, admin, editor]
+ *                 default: user
+ *                 description: 角色
+ *               enabled:
+ *                 $ref: "#/components/schemas/Enabled"
  *     responses:
- *       200:
- *         description: 创建成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/create",
@@ -53,8 +68,8 @@ authRouter.post(
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       200:
- *         description: 获取成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.get("/info", wrapAsync(authController.userInfo));
 

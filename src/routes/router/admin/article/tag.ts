@@ -25,10 +25,12 @@ authRouter.use(jwtAuth);
  *             type: object
  *             required: [name]
  *             properties:
- *               name: { type: string, description: "标签名称" }
+ *               name:
+ *                 type: string
+ *                 description: 标签名称
  *     responses:
- *       200:
- *         description: 创建成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/create",
@@ -51,11 +53,13 @@ authRouter.post(
  *             type: object
  *             required: [id, name]
  *             properties:
- *               id:   { type: number }
- *               name: { type: string }
+ *               id:
+ *                 type: integer
+ *               name:
+ *                 type: string
  *     responses:
- *       200:
- *         description: 更新成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/update",
@@ -71,17 +75,13 @@ authRouter.post(
  *     summary: 软删除标签
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id: { type: number }
+ *             $ref: "#/components/schemas/IdParam"
  *     responses:
- *       200:
- *         description: 删除成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/delete",
@@ -97,18 +97,18 @@ authRouter.post(
  *     summary: 标签列表（全部状态）
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:     { type: string }
- *               page:     { type: number, default: 1 }
- *               pageSize: { type: number, default: 10 }
+ *             allOf:
+ *               - $ref: "#/components/schemas/Pagination"
+ *               - type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
  *     responses:
- *       200:
- *         description: 标签列表
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/list",

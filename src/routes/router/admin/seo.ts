@@ -30,16 +30,31 @@ authRouter.use(jwtAuth);
  *             type: object
  *             required: [type, targetId]
  *             properties:
- *               type:        { type: string, enum: [page, article] }
- *               targetId:    { type: number }
- *               title:       { type: string, description: "SEO 标题" }
- *               keywords:    { type: string, description: "SEO 关键词" }
- *               description: { type: string, description: "SEO 描述" }
- *               ogImage:     { type: string, description: "OG 分享图" }
- *               canonical:   { type: string, description: "权威链接" }
+ *               type:
+ *                 type: string
+ *                 enum: [page, article]
+ *                 description: 目标类型
+ *               targetId:
+ *                 type: integer
+ *                 description: 目标 ID
+ *               title:
+ *                 type: string
+ *                 description: SEO 标题
+ *               keywords:
+ *                 type: string
+ *                 description: SEO 关键词
+ *               description:
+ *                 type: string
+ *                 description: SEO 描述
+ *               ogImage:
+ *                 type: string
+ *                 description: OG 分享图
+ *               canonical:
+ *                 type: string
+ *                 description: 权威链接
  *     responses:
- *       200:
- *         description: 操作成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/create",
@@ -62,15 +77,21 @@ authRouter.post(
  *             type: object
  *             required: [id]
  *             properties:
- *               id:          { type: number }
- *               title:       { type: string }
- *               keywords:    { type: string }
- *               description: { type: string }
- *               ogImage:     { type: string }
- *               canonical:   { type: string }
+ *               id:
+ *                 type: integer
+ *               title:
+ *                 type: string
+ *               keywords:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               ogImage:
+ *                 type: string
+ *               canonical:
+ *                 type: string
  *     responses:
- *       200:
- *         description: 更新成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/update",
@@ -86,17 +107,13 @@ authRouter.post(
  *     summary: 删除 SEO 元数据
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id: { type: number }
+ *             $ref: "#/components/schemas/IdParam"
  *     responses:
- *       200:
- *         description: 删除成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/delete",
@@ -112,19 +129,23 @@ authRouter.post(
  *     summary: SEO 元数据列表
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               page:     { type: number, default: 1 }
- *               pageSize: { type: number, default: 20 }
- *               type:     { type: string, enum: [page, article] }
- *               targetId: { type: number }
+ *             allOf:
+ *               - $ref: "#/components/schemas/Pagination"
+ *               - type: object
+ *                 properties:
+ *                   type:
+ *                     type: string
+ *                     enum: [page, article]
+ *                     description: 按类型过滤
+ *                   targetId:
+ *                     type: integer
+ *                     description: 按目标 ID 过滤
  *     responses:
- *       200:
- *         description: SEO 列表
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/list",
@@ -147,11 +168,16 @@ authRouter.post(
  *             type: object
  *             required: [type, targetId]
  *             properties:
- *               type:     { type: string, enum: [page, article] }
- *               targetId: { type: number }
+ *               type:
+ *                 type: string
+ *                 enum: [page, article]
+ *                 description: 目标类型
+ *               targetId:
+ *                 type: integer
+ *                 description: 目标 ID
  *     responses:
- *       200:
- *         description: SEO 详情
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/detail",

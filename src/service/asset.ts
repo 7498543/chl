@@ -48,7 +48,7 @@ export class AssetService extends BaseService {
     return row;
   }
 
-  /** 资产列表（分页） */
+  /** 资产列表 */
   async listAssets(params: {
     page: number;
     pageSize: number;
@@ -105,7 +105,7 @@ export class AssetService extends BaseService {
     return row ?? null;
   }
 
-  /** 删除资产（软删除） */
+  /** 删除资产 */
   async deleteAsset(id: number) {
     return this.softDelete(schema.assetLib, id);
   }
@@ -144,7 +144,7 @@ export class AssetService extends BaseService {
     return row ?? null;
   }
 
-  /** 资产册列表（分页） */
+  /** 资产册列表 */
   async listAlbums(params: AlbumListDtoType) {
     const db = this.db();
     const where = params.name ? ilike(schema.assetAlbum.name, `%${params.name}%`) : undefined;

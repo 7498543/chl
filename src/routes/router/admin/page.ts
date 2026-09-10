@@ -24,14 +24,23 @@ authRouter.use(jwtAuth);
  *             type: object
  *             required: [name, slug, content]
  *             properties:
- *               name:          { type: string, description: "页面名称" }
- *               slug:          { type: string, description: "路由标识" }
- *               content:       { type: object, description: "页面内容" }
- *               siteVersionId: { type: number, description: "绑定版本 ID" }
- *               enabled:       { type: number, default: 1 }
+ *               name:
+ *                 type: string
+ *                 description: 页面名称
+ *               slug:
+ *                 type: string
+ *                 description: 路由标识
+ *               content:
+ *                 type: object
+ *                 description: 页面内容
+ *               siteVersionId:
+ *                 type: integer
+ *                 description: 绑定版本 ID
+ *               enabled:
+ *                 $ref: "#/components/schemas/Enabled"
  *     responses:
- *       200:
- *         description: 创建成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/create",
@@ -54,15 +63,21 @@ authRouter.post(
  *             type: object
  *             required: [id]
  *             properties:
- *               id:            { type: number }
- *               name:          { type: string }
- *               slug:          { type: string }
- *               content:       { type: object }
- *               siteVersionId: { type: number }
- *               enabled:       { type: number }
+ *               id:
+ *                 type: integer
+ *               name:
+ *                 type: string
+ *               slug:
+ *                 type: string
+ *               content:
+ *                 type: object
+ *               siteVersionId:
+ *                 type: integer
+ *               enabled:
+ *                 $ref: "#/components/schemas/Enabled"
  *     responses:
- *       200:
- *         description: 更新成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/update",
@@ -75,20 +90,16 @@ authRouter.post(
  * /api/admin/page/delete:
  *   post:
  *     tags: [页面-后台]
- *     summary: 删除页面（软删除）
+ *     summary: 删除页面
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id: { type: number }
+ *             $ref: "#/components/schemas/IdParam"
  *     responses:
- *       200:
- *         description: 删除成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/delete",
@@ -104,19 +115,22 @@ authRouter.post(
  *     summary: 页面列表
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               page:     { type: number, default: 1 }
- *               pageSize: { type: number, default: 20 }
- *               name:     { type: string, description: "按名称搜索" }
- *               slug:     { type: string, description: "按路由搜索" }
+ *             allOf:
+ *               - $ref: "#/components/schemas/Pagination"
+ *               - type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: 按名称搜索
+ *                   slug:
+ *                     type: string
+ *                     description: 按路由搜索
  *     responses:
- *       200:
- *         description: 页面列表
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post("/list", pageController.validateBody(PageListDto), wrapAsync(pageController.list));
 
@@ -128,17 +142,13 @@ authRouter.post("/list", pageController.validateBody(PageListDto), wrapAsync(pag
  *     summary: 页面详情
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id: { type: number }
+ *             $ref: "#/components/schemas/IdParam"
  *     responses:
- *       200:
- *         description: 页面详情
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/detail",

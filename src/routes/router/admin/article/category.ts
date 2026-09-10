@@ -25,15 +25,26 @@ authRouter.use(jwtAuth);
  *             type: object
  *             required: [name, slug]
  *             properties:
- *               name:    { type: string, description: "分类名称" }
- *               slug:    { type: string, description: "路由标识" }
- *               icon:    { type: string, description: "图标" }
- *               coverId: { type: number, description: "封面 ID" }
- *               enabled: { type: number, default: 1 }
- *               sort:    { type: number, default: 0 }
+ *               name:
+ *                 type: string
+ *                 description: 分类名称
+ *               slug:
+ *                 type: string
+ *                 description: 路由标识
+ *               icon:
+ *                 type: string
+ *                 description: 图标
+ *               coverId:
+ *                 type: integer
+ *                 description: 封面 ID
+ *               enabled:
+ *                 $ref: "#/components/schemas/Enabled"
+ *               sort:
+ *                 type: integer
+ *                 default: 0
  *     responses:
- *       200:
- *         description: 创建成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/create",
@@ -56,16 +67,23 @@ authRouter.post(
  *             type: object
  *             required: [id]
  *             properties:
- *               id:      { type: number }
- *               name:    { type: string }
- *               slug:    { type: string }
- *               icon:    { type: string }
- *               coverId: { type: number }
- *               enabled: { type: number }
- *               sort:    { type: number }
+ *               id:
+ *                 type: integer
+ *               name:
+ *                 type: string
+ *               slug:
+ *                 type: string
+ *               icon:
+ *                 type: string
+ *               coverId:
+ *                 type: integer
+ *               enabled:
+ *                 $ref: "#/components/schemas/Enabled"
+ *               sort:
+ *                 type: integer
  *     responses:
- *       200:
- *         description: 更新成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/update",
@@ -81,17 +99,13 @@ authRouter.post(
  *     summary: 软删除分类
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id: { type: number }
+ *             $ref: "#/components/schemas/IdParam"
  *     responses:
- *       200:
- *         description: 删除成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/delete",
@@ -107,18 +121,18 @@ authRouter.post(
  *     summary: 分类列表（全部状态）
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:     { type: string }
- *               page:     { type: number, default: 1 }
- *               pageSize: { type: number, default: 10 }
+ *             allOf:
+ *               - $ref: "#/components/schemas/Pagination"
+ *               - type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
  *     responses:
- *       200:
- *         description: 分类列表
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/list",

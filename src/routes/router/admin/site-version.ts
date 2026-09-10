@@ -29,13 +29,21 @@ authRouter.use(jwtAuth);
  *             type: object
  *             required: [name, version, content]
  *             properties:
- *               name:        { type: string, description: "版本名称" }
- *               description: { type: string, description: "版本描述" }
- *               version:     { type: string, description: "语义化版本号" }
- *               content:     { type: object, description: "版本数据快照" }
+ *               name:
+ *                 type: string
+ *                 description: 版本名称
+ *               description:
+ *                 type: string
+ *                 description: 版本描述
+ *               version:
+ *                 type: string
+ *                 description: 语义化版本号
+ *               content:
+ *                 type: object
+ *                 description: 版本数据快照
  *     responses:
- *       200:
- *         description: 创建成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/create",
@@ -58,15 +66,21 @@ authRouter.post(
  *             type: object
  *             required: [id]
  *             properties:
- *               id:          { type: number }
- *               name:        { type: string }
- *               description: { type: string }
- *               version:     { type: string }
- *               content:     { type: object }
- *               enabled:     { type: number }
+ *               id:
+ *                 type: integer
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               version:
+ *                 type: string
+ *               content:
+ *                 type: object
+ *               enabled:
+ *                 $ref: "#/components/schemas/Enabled"
  *     responses:
- *       200:
- *         description: 更新成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/update",
@@ -79,20 +93,16 @@ authRouter.post(
  * /api/admin/site-version/delete:
  *   post:
  *     tags: [站点版本-后台]
- *     summary: 删除站点版本（软删除）
+ *     summary: 删除站点版本
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id: { type: number }
+ *             $ref: "#/components/schemas/IdParam"
  *     responses:
- *       200:
- *         description: 删除成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/delete",
@@ -108,18 +118,19 @@ authRouter.post(
  *     summary: 站点版本列表
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               page:     { type: number, default: 1 }
- *               pageSize: { type: number, default: 20 }
- *               name:     { type: string, description: "按名称搜索" }
+ *             allOf:
+ *               - $ref: "#/components/schemas/Pagination"
+ *               - type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: 按名称搜索
  *     responses:
- *       200:
- *         description: 版本列表
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/list",
@@ -135,17 +146,13 @@ authRouter.post(
  *     summary: 站点版本详情
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id: { type: number }
+ *             $ref: "#/components/schemas/IdParam"
  *     responses:
- *       200:
- *         description: 版本详情
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 authRouter.post(
   "/detail",

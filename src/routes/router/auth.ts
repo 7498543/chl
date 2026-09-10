@@ -19,13 +19,22 @@ const router = express.Router();
  *             type: object
  *             required: [email, username, nickname, password]
  *             properties:
- *               email: { type: string, description: "邮箱" }
- *               username: { type: string, description: "用户名" }
- *               nickname: { type: string, description: "昵称" }
- *               password: { type: string, description: "密码" }
+ *               email:
+ *                 type: string
+ *                 description: 邮箱
+ *               username:
+ *                 type: string
+ *                 description: 用户名
+ *               nickname:
+ *                 type: string
+ *                 description: 昵称
+ *               password:
+ *                 type: string
+ *                 description: 密码
+ *                 format: password
  *     responses:
- *       200:
- *         description: 注册成功
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 router.post(
   "/register",
@@ -47,11 +56,16 @@ router.post(
  *             type: object
  *             required: [username, password]
  *             properties:
- *               username: { type: string, description: "用户名" }
- *               password: { type: string, description: "密码" }
+ *               username:
+ *                 type: string
+ *                 description: 用户名
+ *               password:
+ *                 type: string
+ *                 description: 密码
+ *                 format: password
  *     responses:
- *       200:
- *         description: 登录成功，返回 token 和用户信息
+ *       "200":
+ *         $ref: "#/components/responses/SuccessResponse"
  */
 router.post("/login", authController.validateBody(LoginDto), wrapAsync(authController.login));
 
