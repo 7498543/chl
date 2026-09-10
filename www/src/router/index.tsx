@@ -46,9 +46,7 @@ const router = createBrowserRouter([
     path: "/admin/auth",
     element: (
       <GuestGuard>
-        <div className="flex min-h-screen items-center justify-center bg-gray-50">
-          <Outlet />
-        </div>
+        <Outlet />
       </GuestGuard>
     ),
     children: [

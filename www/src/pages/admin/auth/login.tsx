@@ -63,39 +63,54 @@ export default function Login() {
   }
 
   return (
-    <Box sx={{ maxWidth: 400, mx: "auto", mt: 8 }}>
-      <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>
-        登录
-      </Typography>
-      <form onSubmit={handleLogin} noValidate>
-        <TextField
-          label="用户名"
-          name="username"
-          value={loginForm.username}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          autoComplete="username"
-        />
-        <TextField
-          label="密码"
-          name="password"
-          type="password"
-          value={loginForm.password}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          autoComplete="current-password"
-        />
-        {error && (
-          <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-            {error}
-          </Typography>
-        )}
-        <Button type="submit" variant="contained" fullWidth disabled={loading} sx={{ mt: 3 }}>
-          {loading ? "登录中…" : "登录"}
-        </Button>
-      </form>
-    </Box>
+    // 撑起来屏幕
+    <div className="flex min-h-screen items-center justify-center bg-gray-500">
+      {/* 页面展示 网格划分12块 */}
+      <div className=" grid grid-cols-12">
+        {/* div 占位 用来实现大面积空白 */}
+        <div className="col-start-2 col-span-6"> </div>
+        {/* 表单容器 */}
+        <Box className=" bg-white p-10 col-span-4">
+          {/* 提交表单 */}
+          <form onSubmit={handleLogin} noValidate>
+            {/* 表单标题 */}
+            <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>
+              登录
+            </Typography>
+            {/* 用户账号输入 */}
+            <TextField
+              label="用户名"
+              name="username"
+              value={loginForm.username}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              autoComplete="username"
+            />
+            {/* 用户密码输入 */}
+            <TextField
+              label="密码"
+              name="password"
+              type="password"
+              value={loginForm.password}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              autoComplete="current-password"
+            />
+            {/* 错误提示 */}
+            {error && (
+              <Typography color="error" variant="body2" sx={{ mt: 1 }}>
+                {error}
+              </Typography>
+            )}
+            {/* 提交表单 */}
+            <Button type="submit" variant="contained" fullWidth disabled={loading} sx={{ mt: 3 }}>
+              {loading ? "登录中…" : "登录"}
+            </Button>
+          </form>
+        </Box>
+      </div>
+    </div>
   );
 }
