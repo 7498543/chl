@@ -1,15 +1,31 @@
-import { pgTable, serial, text, integer, index } from "drizzle-orm/pg-core";
+import { index, integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 import { createSchema, enabled, sort } from "../tool";
-import { user } from "./sys";
+import { assetLib } from "./asset";
+import { seoMeta, tag, user } from "./sys";
+
+/* ──────────────────── 文章分类 ──────────────────── */
 
 export const articleCategory = pgTable(
   "article_category",
   createSchema({
     id: serial("id").primaryKey(),
-    name: text("name").notNull(),
-    icon: text("icon"),
-    link: text("link"),
+    /** 分类名称 */
+    name: varchar("name", { length: 200 }).notNull(),
+    /** 分类图标（CSS class 或 emoji） */
+    icon: varchar("icon", { length: 100 }),
+    /** 关联 SEO */
+    seoMetaId: integer("seo_meta_id").references(() => seoMeta.id, {
+      onDelete: "set null",
+    }),
+    /** 封面图片 */
+    coverId: integer("cover_id").references(() => assetLib.id, {
+      onDelete: "set null",
+    }),
+    /** 分类路由 */
+    slug: varchar("slug", { length: 200 }).notNull().unique(),
+    /** 排序 */
     sort: sort(),
+    /** 是否启用 */
     enabled: enabled(),
   }),
   (table) => [
@@ -18,20 +34,37 @@ export const articleCategory = pgTable(
   ],
 );
 
+/* ──────────────────── 文章 ──────────────────── */
+
 export const article = pgTable(
   "article",
   createSchema({
     id: serial("id").primaryKey(),
-    title: text("title").notNull(),
+    /** 文章标题 */
+    title: varchar("title", { length: 500 }).notNull(),
+    /** 文章摘要 */
     description: text("description"),
+    /** 文章正文（支持 Markdown / HTML） */
     content: text("content"),
+    /** 封面图片 */
+    coverId: integer("cover_id").references(() => assetLib.id, {
+      onDelete: "set null",
+    }),
+    /** 关联 SEO */
+    seoMetaId: integer("seo_meta_id").references(() => seoMeta.id, {
+      onDelete: "set null",
+    }),
+    /** 作者 */
     userId: integer("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
+    /** 所属分类 */
     categoryId: integer("category_id").references(() => articleCategory.id, {
       onDelete: "set null",
     }),
+    /** 排序 */
     sort: sort(),
+    /** 是否启用 */
     enabled: enabled(),
   }),
   (table) => [
@@ -42,15 +75,7 @@ export const article = pgTable(
   ],
 );
 
-export const tag = pgTable(
-  "tag",
-  createSchema({
-    id: serial("id").primaryKey(),
-    name: text("name").notNull().unique(),
-    sort: sort(),
-    enabled: enabled(),
-  }),
-);
+/* ──────────────────── 文章-标签 多对多关联 ──────────────────── */
 
 export const articleTag = pgTable(
   "article_tag",
@@ -69,14 +94,13 @@ export const articleTag = pgTable(
   ],
 );
 
+/* ──────────────────── 导出类型 ──────────────────── */
+
 export type Article = typeof article.$inferSelect;
 export type ArticleInsert = typeof article.$inferInsert;
 
 export type ArticleCategory = typeof articleCategory.$inferSelect;
 export type ArticleCategoryInsert = typeof articleCategory.$inferInsert;
-
-export type Tag = typeof tag.$inferSelect;
-export type TagInsert = typeof tag.$inferInsert;
 
 export type ArticleTag = typeof articleTag.$inferSelect;
 export type ArticleTagInsert = typeof articleTag.$inferInsert;

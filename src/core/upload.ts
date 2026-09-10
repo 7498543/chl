@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 
 import { useRuntimeConfig } from "@/core";
+import { isSafeFile } from "@/utils/file";
 
 const config = useRuntimeConfig();
 
@@ -21,4 +22,19 @@ const storage = multer.diskStorage({
   },
 });
 
-export const upload = multer({ storage, limits: { fileSize: 100 * 1024 * 1024 } });
+/**
+ * Multer 文件过滤器：拦截危险文件（exe、php 等）
+ */
+function fileFilter(
+  req: Express.Request,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback,
+) {
+  if (isSafeFile(file.originalname)) {
+    cb(null, true);
+  } else {
+    cb(new Error(`禁止上传危险文件类型: ${path.extname(file.originalname)}`));
+  }
+}
+
+export const upload = multer({ storage, fileFilter, limits: { fileSize: 100 * 1024 * 1024 } });
