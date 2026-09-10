@@ -303,7 +303,7 @@ export class AssetController extends BaseController {
 
 ```typescript
 export const CreateAlbumDto = z.object({
-  name: z.string().min(1, "相册名称不能为空").max(50, "相册名称最多 50 字"),
+  name: z.string().min(1, "资产册名称不能为空").max(50, "资产册名称最多 50 字"),
   parentId: z.coerce.number().int().min(0).optional().nullable(),
   sort: z.coerce.number().int().optional().default(0),
 });

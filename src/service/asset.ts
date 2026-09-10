@@ -110,9 +110,9 @@ export class AssetService extends BaseService {
     return this.softDelete(schema.assetLib, id);
   }
 
-  /* ═══════ 相册 ═══════ */
+  /* ═══════ 资产册 ═══════ */
 
-  /** 创建相册 */
+  /** 创建资产册 */
   async createAlbum(data: CreateAlbumDtoType) {
     const db = this.db();
     const [row] = await db
@@ -122,7 +122,7 @@ export class AssetService extends BaseService {
     return row;
   }
 
-  /** 更新相册 */
+  /** 更新资产册 */
   async updateAlbum(id: number, data: UpdateAlbumDtoType) {
     const db = this.db();
     const { id: _, parentId, ...rest } = data;
@@ -134,7 +134,7 @@ export class AssetService extends BaseService {
     return row ?? null;
   }
 
-  /** 删除相册 */
+  /** 删除资产册 */
   async deleteAlbum(id: number) {
     const db = this.db();
     const [row] = await db
@@ -144,7 +144,7 @@ export class AssetService extends BaseService {
     return row ?? null;
   }
 
-  /** 相册列表（分页） */
+  /** 资产册列表（分页） */
   async listAlbums(params: AlbumListDtoType) {
     const db = this.db();
     const where = params.name ? ilike(schema.assetAlbum.name, `%${params.name}%`) : undefined;
@@ -163,7 +163,7 @@ export class AssetService extends BaseService {
     return { list: rows, total: total[0].total };
   }
 
-  /** 全部相册（下选用） */
+  /** 全部资产册（下选用） */
   async getAllAlbums() {
     const db = this.db();
     return db

@@ -39,7 +39,7 @@ authRouter.use(jwtAuth);
  *               file:    { type: string, format: binary, description: "文件" }
  *               title:   { type: string, description: "标题" }
  *               alt:     { type: string, description: "替代文本" }
- *               albumId: { type: number, description: "相册 ID" }
+ *               albumId: { type: number, description: "资产册 ID" }
  *               sort:    { type: number, default: 0 }
  *     responses:
  *       200:
@@ -69,7 +69,7 @@ authRouter.post(
  *               page:     { type: number, default: 1 }
  *               pageSize: { type: number, default: 20 }
  *               type:     { type: string, description: "按类型过滤" }
- *               albumId:  { type: number, description: "按相册过滤" }
+ *               albumId:  { type: number, description: "按资产册过滤" }
  *               title:    { type: string, description: "按标题模糊搜索" }
  *     responses:
  *       200:
@@ -163,14 +163,14 @@ authRouter.post(
   wrapAsync(assetController.delete),
 );
 
-/* ═══════ 相册 ═══════ */
+/* ═══════ 资产册 ═══════ */
 
 /**
  * @openapi
  * /api/admin/asset/album/create:
  *   post:
- *     tags: [相册-后台]
- *     summary: 创建相册
+ *     tags: [资产册-后台]
+ *     summary: 创建资产册
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
  *       required: true
@@ -181,7 +181,7 @@ authRouter.post(
  *             required: [name]
  *             properties:
  *               name:     { type: string }
- *               parentId: { type: number, description: "父相册 ID" }
+ *               parentId: { type: number, description: "父资产册 ID" }
  *               sort:     { type: number, default: 0 }
  *     responses:
  *       200:
@@ -197,8 +197,8 @@ authRouter.post(
  * @openapi
  * /api/admin/asset/album/update:
  *   post:
- *     tags: [相册-后台]
- *     summary: 更新相册
+ *     tags: [资产册-后台]
+ *     summary: 更新资产册
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
  *       required: true
@@ -226,8 +226,8 @@ authRouter.post(
  * @openapi
  * /api/admin/asset/album/delete:
  *   post:
- *     tags: [相册-后台]
- *     summary: 删除相册
+ *     tags: [资产册-后台]
+ *     summary: 删除资产册
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
  *       required: true
@@ -252,8 +252,8 @@ authRouter.post(
  * @openapi
  * /api/admin/asset/album/list:
  *   post:
- *     tags: [相册-后台]
- *     summary: 相册列表（分页）
+ *     tags: [资产册-后台]
+ *     summary: 资产册列表（分页）
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
  *       required: true
@@ -267,7 +267,7 @@ authRouter.post(
  *               name:     { type: string, description: "按名称搜索" }
  *     responses:
  *       200:
- *         description: 相册列表
+ *         description: 资产册列表
  */
 authRouter.post(
   "/album/list",
@@ -279,12 +279,12 @@ authRouter.post(
  * @openapi
  * /api/admin/asset/album/all:
  *   post:
- *     tags: [相册-后台]
- *     summary: 全部相册（下拉选择用）
+ *     tags: [资产册-后台]
+ *     summary: 全部资产册（下拉选择用）
  *     security: [{ bearerAuth: [] }]
  *     responses:
  *       200:
- *         description: 全部相册
+ *         description: 全部资产册
  */
 authRouter.post("/album/all", wrapAsync(assetController.allAlbums));
 

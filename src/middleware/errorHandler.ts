@@ -18,6 +18,7 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
     stack: err.stack,
     name: err.name,
     code: (err as any).code,
+    cause: (err as any).cause,
   });
 
   if (err instanceof HttpError) {

@@ -33,12 +33,13 @@ export class BaseController {
   /**
    * 校验请求体
    * @description 校验请求体是否符合校验规则
+   *              当请求体为空且 DTO 无必填字段时允许省略 body
    * @param schema 校验规则
    * @returns 校验结果
    */
   validateBody(schema: ZodType) {
     return (req: Request, res: Response, next: NextFunction) => {
-      const result = this.validate(schema, req.body);
+      const result = this.validate(schema, req.body ?? {});
       if (!result.success) {
         this.errorResult(res, {
           message: result.error.issues.map((issue) => issue.message).join("\n"),

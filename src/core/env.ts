@@ -8,9 +8,14 @@ process.argv.forEach((arg) => {
   }
 });
 
+// 优先加载环境特定文件（如 .env.development），不存在则回退到 .env
 const envPath = env ? `.env.${env}` : ".env";
+const { parsed, error } = dotenv.config({ path: envPath });
 
-dotenv.config({ path: envPath });
+// 如果指定了环境文件但没加载到内容，回退到 .env
+if (!parsed && env && !error) {
+  dotenv.config({ path: ".env" });
+}
 
 interface RuntimeConfig {
   /** 服务器端口 */

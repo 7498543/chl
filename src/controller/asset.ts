@@ -59,45 +59,45 @@ export class AssetController extends BaseController {
     this.successResult(res, null, { message: "删除资产成功" });
   };
 
-  /* ═══════ 相册 ═══════ */
+  /* ═══════ 资产册 ═══════ */
 
-  /** 创建相册 */
+  /** 创建资产册 */
   createAlbum = async (req: Request, res: Response) => {
     const album = await assetService.createAlbum(req.body);
-    this.createResult(res, album, { message: "创建相册成功" });
+    this.createResult(res, album, { message: "创建资产册成功" });
   };
 
-  /** 更新相册 */
+  /** 更新资产册 */
   updateAlbum = async (req: Request, res: Response) => {
     const { id, ...data } = req.body;
     const album = await assetService.updateAlbum(id, data);
     if (!album) {
-      this.notFoundResult(res, { message: "相册不存在" });
+      this.notFoundResult(res, { message: "资产册不存在" });
       return;
     }
-    this.successResult(res, album, { message: "更新相册成功" });
+    this.successResult(res, album, { message: "更新资产册成功" });
   };
 
-  /** 删除相册 */
+  /** 删除资产册 */
   deleteAlbum = async (req: Request, res: Response) => {
     const result = await assetService.deleteAlbum(req.body.id);
     if (!result) {
-      this.notFoundResult(res, { message: "相册不存在" });
+      this.notFoundResult(res, { message: "资产册不存在" });
       return;
     }
-    this.successResult(res, null, { message: "删除相册成功" });
+    this.successResult(res, null, { message: "删除资产册成功" });
   };
 
-  /** 相册列表 */
+  /** 资产册列表 */
   listAlbums = async (req: Request, res: Response) => {
     const result = await assetService.listAlbums(req.body);
-    this.successResult(res, result, { message: "获取相册列表成功" });
+    this.successResult(res, result, { message: "获取资产册列表成功" });
   };
 
-  /** 全部相册（下拉选择） */
+  /** 全部资产册（下拉选择） */
   allAlbums = async (_req: Request, res: Response) => {
     const list = await assetService.getAllAlbums();
-    this.successResult(res, list, { message: "获取相册列表成功" });
+    this.successResult(res, list, { message: "获取资产册列表成功" });
   };
 }
 

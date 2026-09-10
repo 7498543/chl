@@ -40,18 +40,18 @@ export const AssetIdDto = z.object({
 
 export type AssetIdDtoType = z.infer<typeof AssetIdDto>;
 
-/* ───────── 相册 ───────── */
+/* ───────── 资产册 ───────── */
 
-/** 创建相册 DTO */
+/** 创建资产册 DTO */
 export const CreateAlbumDto = z.object({
-  name: z.string().min(1, "相册名称不能为空").max(50, "相册名称最多 50 字"),
+  name: z.string().min(1, "资产册名称不能为空").max(50, "资产册名称最多 50 字"),
   parentId: z.coerce.number().int().min(0).optional().nullable(),
   sort: z.coerce.number().int().optional().default(0),
 });
 
 export type CreateAlbumDtoType = z.infer<typeof CreateAlbumDto>;
 
-/** 更新相册 DTO */
+/** 更新资产册 DTO */
 export const UpdateAlbumDto = z.object({
   id: z.coerce.number().int().positive("ID 必须为正整数"),
   name: z.string().min(1).max(50).optional(),
@@ -61,14 +61,14 @@ export const UpdateAlbumDto = z.object({
 
 export type UpdateAlbumDtoType = z.infer<typeof UpdateAlbumDto>;
 
-/** 相册列表 DTO */
+/** 资产册列表 DTO */
 export const AlbumListDto = PaginationDto.extend({
   name: z.string().optional(),
 });
 
 export type AlbumListDtoType = z.infer<typeof AlbumListDto>;
 
-/** 相册 ID DTO */
+/** 资产册 ID DTO */
 export const AlbumIdDto = z.object({
   id: z.coerce.number().int().positive("ID 必须为正整数"),
 });
