@@ -1,6 +1,6 @@
-import { http } from "@/lib/api";
+import { getUserInfo as getUserInfoApi, login as loginApi } from "@/api/auth";
 import { TOKEN_KEY, USER_KEY } from "@/lib/constants";
-import type { LoginRequest, LoginResponse, User } from "@/types";
+import type { LoginRequest, User } from "@/types";
 import { create } from "zustand";
 
 interface AuthState {
@@ -9,9 +9,9 @@ interface AuthState {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (data: LoginRequest) => Promise<void>;
+  fetchUserInfo: () => Promise<void>;
   logout: () => void;
   initialize: () => void;
-  /** 更新用户信息 */
   updateUser: (user: Partial<User>) => void;
 }
 
@@ -24,10 +24,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: async (data: LoginRequest) => {
     set({ isLoading: true });
     try {
-      const res = await http.post<LoginResponse>(
-        "/base/login",
-        data as unknown as Record<string, unknown>,
-      );
+      const res = await loginApi(data);
       const { token, user } = res.data;
       localStorage.setItem(TOKEN_KEY, token);
       localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -35,6 +32,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } catch {
       set({ isLoading: false });
       throw new Error("登录失败");
+    }
+  },
+
+  fetchUserInfo: async () => {
+    try {
+      const res = await getUserInfoApi();
+      const user = res.data;
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+      set({ user });
+    } catch {
+      get().logout();
     }
   },
 

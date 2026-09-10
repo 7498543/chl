@@ -3,9 +3,10 @@ import DefaultLayout from "@/layout/default";
 import Forbidden from "@/pages/403";
 import NotFound from "@/pages/404";
 import ServerError from "@/pages/500";
+import Login from "@/pages/admin/auth/login";
 import Index from "@/pages/index";
 import { AuthGuard, GuestGuard } from "@/router/guard";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
 const router = createBrowserRouter([
   // ==================== 前台布局 ====================
@@ -46,12 +47,12 @@ const router = createBrowserRouter([
     element: (
       <GuestGuard>
         <div className="flex min-h-screen items-center justify-center bg-gray-50">
-          {/* 认证页面占位，实际使用 Outlet */}
+          <Outlet />
         </div>
       </GuestGuard>
     ),
     children: [
-      { path: "login", element: <div>登录页</div> },
+      { path: "login", element: <Login /> },
       { path: "register", element: <div>注册页</div> },
     ],
   },

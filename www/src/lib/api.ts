@@ -346,7 +346,7 @@ export class HttpClient {
 
 /** 默认 API 实例 */
 export const http = new HttpClient({
-  baseURL: API_BASE_URL,
+  baseURL: "/api",
 });
 
 /** 文件上传实例（长超时） */
