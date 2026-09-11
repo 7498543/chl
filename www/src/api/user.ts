@@ -1,5 +1,5 @@
 import { http } from "@/lib/api";
-import type { IdParam, PaginatedResponse, PaginationParams, User } from "@/types";
+import type { PaginatedResponse, PaginationParams, User } from "@/types";
 
 export interface CreateUserParams {
   email: string;

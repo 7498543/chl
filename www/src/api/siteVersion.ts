@@ -1,5 +1,5 @@
 import { http } from "@/lib/api";
-import type { IdParam, PaginatedResponse, PaginationParams, SiteVersion } from "@/types";
+import type { PaginatedResponse, PaginationParams, SiteVersion } from "@/types";
 
 export interface SiteVersionListParams extends PaginationParams {
   name?: string;
@@ -12,7 +12,7 @@ export interface CreateSiteVersionParams {
   content: Record<string, unknown>;
 }
 
-export interface UpdateSiteVersionParams extends IdParam, Partial<CreateSiteVersionParams> {
+export interface UpdateSiteVersionParams extends Partial<CreateSiteVersionParams> {
   enabled?: number;
 }
 

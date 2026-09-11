@@ -1,5 +1,5 @@
 import { http, uploadHttp } from "@/lib/api";
-import type { Asset, AssetAlbum, IdParam, PaginatedResponse, PaginationParams } from "@/types";
+import type { Asset, AssetAlbum, PaginatedResponse, PaginationParams } from "@/types";
 
 export interface AssetListParams extends PaginationParams {
   type?: string;
@@ -13,14 +13,14 @@ export interface CreateAlbumParams {
   sort?: number;
 }
 
-export interface UpdateAssetParams extends IdParam {
+export interface UpdateAssetParams {
   title?: string;
   alt?: string;
   albumId?: number;
   sort?: number;
 }
 
-export interface UpdateAlbumParams extends IdParam {
+export interface UpdateAlbumParams {
   name?: string;
   parentId?: number;
   sort?: number;

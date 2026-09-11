@@ -82,10 +82,12 @@ export class HttpClient {
     // 请求拦截器
     this.instance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        // 添加 token
-        const token = localStorage.getItem(TOKEN_KEY);
-        if (token && config.headers) {
-          config.headers.Authorization = `Bearer ${token}`;
+        // 添加 token（SSR 安全）
+        if (typeof window !== "undefined") {
+          const token = localStorage.getItem(TOKEN_KEY);
+          if (token && config.headers) {
+            config.headers.Authorization = `Bearer ${token}`;
+          }
         }
 
         // 添加取消控制器
@@ -127,7 +129,8 @@ export class HttpClient {
           const { status } = error.response;
           switch (status) {
             case 401:
-              // token 过期，尝试刷新
+              // token 过期，尝试刷新（仅客户端）
+              if (typeof window === "undefined") break;
               try {
                 await this.refreshToken();
                 // 重新发起原请求
@@ -139,13 +142,13 @@ export class HttpClient {
               }
               break;
             case 403:
-              window.location.href = "/403";
+              if (typeof window !== "undefined") window.location.href = "/403";
               break;
             case 404:
-              window.location.href = "/404";
+              if (typeof window !== "undefined") window.location.href = "/404";
               break;
             case 500:
-              window.location.href = "/500";
+              if (typeof window !== "undefined") window.location.href = "/500";
               break;
             default:
               break;
@@ -179,6 +182,7 @@ export class HttpClient {
   }
 
   private handleUnauthorized(): void {
+    if (typeof window === "undefined") return;
     localStorage.removeItem(TOKEN_KEY);
     window.location.href = "/admin/auth/login";
   }
@@ -195,6 +199,8 @@ export class HttpClient {
   private refreshSubscribers: Array<(token: string) => void> = [];
 
   private async refreshToken(): Promise<void> {
+    if (typeof window === "undefined") throw new Error("SSR 环境无法刷新 Token");
+
     if (this.isRefreshing) {
       // 等待刷新完成
       return new Promise((resolve) => {
@@ -316,6 +322,7 @@ export class HttpClient {
 
   /** 下载文件 */
   async download(url: string, filename?: string): Promise<void> {
+    if (typeof window === "undefined") return;
     const response = await this.instance.get(url, {
       responseType: "blob",
     });

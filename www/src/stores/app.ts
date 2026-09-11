@@ -44,12 +44,14 @@ const getSystemTheme = (): "light" | "dark" => {
 
 /** 获取初始主题 */
 const getInitialTheme = (): ThemeMode => {
+  if (typeof window === "undefined") return "system";
   const saved = localStorage.getItem("theme") as ThemeMode | null;
   return saved ?? "system";
 };
 
 /** 应用主题 */
 const applyTheme = (theme: ThemeMode) => {
+  if (typeof window === "undefined") return;
   const root = document.documentElement;
   const isDark = theme === "dark" || (theme === "system" && getSystemTheme() === "dark");
 
@@ -106,11 +108,10 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 }));
 
-// 初始化主题
-applyTheme(getInitialTheme());
-
-// 监听系统主题变化
+// 客户端初始化主题 & 监听系统主题变化
 if (typeof window !== "undefined") {
+  applyTheme(getInitialTheme());
+
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
     const { theme } = useAppStore.getState();
     if (theme === "system") {

@@ -1,5 +1,5 @@
 import { http } from "@/lib/api";
-import type { IdParam, PaginatedResponse, PaginationParams, SeoMeta } from "@/types";
+import type { PaginatedResponse, PaginationParams, SeoMeta } from "@/types";
 
 export interface SeoListParams extends PaginationParams {
   type?: "page" | "article";
@@ -21,7 +21,7 @@ export interface CreateSeoParams {
   canonical?: string;
 }
 
-export interface UpdateSeoParams extends IdParam {
+export interface UpdateSeoParams {
   title?: string;
   keywords?: string;
   description?: string;

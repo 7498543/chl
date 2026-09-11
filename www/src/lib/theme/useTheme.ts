@@ -58,17 +58,15 @@ export function useTheme() {
   const mode = isDark ? "dark" : "light";
 
   // 重解析 CSS 变量
-  const refreshVars = () => {
+  function refreshVars() {
     setVars({
       colors: resolveCssVars(COLOR_VARS, CSS_PREFIX.color),
       sizes: resolveCssVars(SIZE_VARS, CSS_PREFIX.size),
     });
-  };
+  }
 
   // 监听主题变化
   useEffect(() => {
-    refreshVars();
-
     const observer = new MutationObserver(refreshVars);
     observer.observe(document.documentElement, {
       attributes: true,

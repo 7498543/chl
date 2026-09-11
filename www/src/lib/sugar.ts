@@ -1,5 +1,3 @@
-import { cloneDeep } from "lodash-es";
-
 // ==================== 存储封装 ====================
 
 interface StorageOptions {
@@ -7,27 +5,54 @@ interface StorageOptions {
   expire?: number;
 }
 
+/** SSR 安全获取 Storage */
+function getStorage(): Storage | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return localStorage;
+  } catch {
+    return null;
+  }
+}
+
+function getSessionStorage(): Storage | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return sessionStorage;
+  } catch {
+    return null;
+  }
+}
+
 class StorageWrapper {
-  constructor(private storage: Storage) {}
+  private getStorage: () => Storage | null;
+
+  constructor(getStorage: () => Storage | null) {
+    this.getStorage = getStorage;
+  }
 
   /** 设置存储项 */
   set<T>(key: string, value: T, options?: StorageOptions): void {
+    const storage = this.getStorage();
+    if (!storage) return;
     const data = {
       value,
       expire: options?.expire ? Date.now() + options.expire : null,
     };
-    this.storage.setItem(key, JSON.stringify(data));
+    storage.setItem(key, JSON.stringify(data));
   }
 
   /** 获取存储项 */
   get<T = unknown>(key: string): T | null {
-    const raw = this.storage.getItem(key);
+    const storage = this.getStorage();
+    if (!storage) return null;
+    const raw = storage.getItem(key);
     if (!raw) return null;
 
     try {
       const data = JSON.parse(raw) as { value: T; expire: number | null };
       if (data.expire && Date.now() > data.expire) {
-        this.storage.removeItem(key);
+        storage.removeItem(key);
         return null;
       }
       return data.value;
@@ -38,20 +63,24 @@ class StorageWrapper {
 
   /** 移除存储项 */
   remove(key: string): void {
-    this.storage.removeItem(key);
+    const storage = this.getStorage();
+    if (!storage) return;
+    storage.removeItem(key);
   }
 
-  /** 清除所有存储 */ d;
+  /** 清除所有存储 */
   clear(): void {
-    this.storage.clear();
+    const storage = this.getStorage();
+    if (!storage) return;
+    storage.clear();
   }
 }
 
-/** 本地存储（带过期时间支持） */
-export const storage = new StorageWrapper(localStorage);
+/** 本地存储（带过期时间支持，SSR 安全） */
+export const storage = new StorageWrapper(getStorage);
 
-/** 会话存储 */
-export const session = new StorageWrapper(sessionStorage);
+/** 会话存储（SSR 安全） */
+export const session = new StorageWrapper(getSessionStorage);
 
 // ==================== 类型判断 ====================
 
@@ -216,9 +245,12 @@ export const num = {
 // ==================== 对象工具 ====================
 
 export const obj = {
-  /** 深拷贝（支持函数、undefined、循环引用等） */
+  /** 深拷贝（使用 structuredClone，不支持时回退到 JSON 序列化） */
   clone<T>(value: T): T {
-    return cloneDeep(value);
+    if (typeof structuredClone !== "undefined") {
+      return structuredClone(value);
+    }
+    return JSON.parse(JSON.stringify(value));
   },
 
   /** 安全获取嵌套属性：get(obj, 'a.b.c', default) */
